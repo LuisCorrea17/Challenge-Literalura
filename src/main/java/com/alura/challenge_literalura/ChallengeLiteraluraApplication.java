@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.alura.challenge_literalura.view.Menu;
 
 @SpringBootApplication
-public class ChallengeLiteraluraApplication implements CommandLineRunner{
-	
+public class ChallengeLiteraluraApplication implements CommandLineRunner {
+
 	@Autowired
 	private Menu menu;
 
@@ -19,7 +19,12 @@ public class ChallengeLiteraluraApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		menu.mostrarMenu();
+		try {
+			menu.mostrarMenu();
+
+		} catch (Exception e) {
+			System.out.println("Ha ocurrido un error inesperado: " + e.getMessage());
+		}
 	}
 
 }

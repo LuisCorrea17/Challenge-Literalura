@@ -1,5 +1,6 @@
 package com.alura.challenge_literalura.view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,29 +34,35 @@ public class Menu {
                     0. Salir
                     """;
             System.out.println(listaOpciones);
-            var opcion = teclado.nextInt();
-            teclado.nextLine();
-            switch (opcion) {
-                case 1:
-                    buscarLibroPorTitulo();
-                    break;
-                case 2:
-                    listarLibrosRegistrados();
-                    break;
-                case 3:
-                    listarAutoresRegistrados();
-                    break;
-                case 4:
-                    listarAutoresVivos();
-                    break;
-                case 5:
-                    listarLibrosPorIdioma();
-                    break;
-                case 0:
-                    menu = false;
-                    break;
-                default:
-                    break;
+            try {
+                var opcion = teclado.nextInt();
+                teclado.nextLine();
+                switch (opcion) {
+                    case 1:
+                        buscarLibroPorTitulo();
+                        break;
+                    case 2:
+                        listarLibrosRegistrados();
+                        break;
+                    case 3:
+                        listarAutoresRegistrados();
+                        break;
+                    case 4:
+                        listarAutoresVivos();
+                        break;
+                    case 5:
+                        listarLibrosPorIdioma();
+                        break;
+                    case 0:
+                        menu = false;
+                        break;
+                    default:
+                        System.out.println("Opcion no valida, por favor escoja una de la opciones listadas");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingresa un numero valido");
+                teclado.nextLine();
             }
         }
     }
@@ -86,14 +93,20 @@ public class Menu {
 
     private void listarAutoresVivos() {
         System.out.println("Ingrese el año en el que desea buscar autores vivos");
-        var año = teclado.nextInt();
-        teclado.nextLine();
-        var listaAutores = autorController.listarAutoresVivos(año);
-        if (listaAutores.isEmpty()) {
-            System.out.println("\n****No hay autores vivos en ese año****\n");
-        } else {
-            System.out.println("\n------- Autores Vivos en " + año + " -------");
-            listaAutores.forEach(System.out::println);
+        try {
+            var año = teclado.nextInt();
+            teclado.nextLine();
+            var listaAutores = autorController.listarAutoresVivos(año);
+            if (listaAutores.isEmpty()) {
+                System.out.println("\n****No hay autores vivos en ese año****\n");
+            } else {
+                System.out.println("\n------- Autores Vivos en " + año + " -------");
+                listaAutores.forEach(System.out::println);
+            }
+        } catch(InputMismatchException e) {
+            System.out.println("\nIngresa un año válido (número entero)\n");
+            teclado.nextLine();
+            listarAutoresVivos();
         }
     }
 
@@ -108,7 +121,8 @@ public class Menu {
                 """;
         System.out.println(listaIdiomas);
         var idiomaSeleccionado = teclado.nextLine();
-        if (!idiomaSeleccionado.equals("es") && !idiomaSeleccionado.equals("en") && !idiomaSeleccionado.equals("fr") && !idiomaSeleccionado.equals("pt")) {
+        if (!idiomaSeleccionado.equals("es") && !idiomaSeleccionado.equals("en") && !idiomaSeleccionado.equals("fr")
+                && !idiomaSeleccionado.equals("pt")) {
             System.out.println("Idioma no válido, intenta de nuevo");
         }
         var libros = libroController.listarLibrosPorIdioma(idiomaSeleccionado);
