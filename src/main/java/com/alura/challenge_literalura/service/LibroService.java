@@ -27,9 +27,9 @@ public class LibroService {
     @Autowired
     private AutorRepository autorRepository;
 
-     @Autowired
+    @Autowired
     private ConsumoAPI consumoAPI;
-    
+
     @Autowired
     private ConvierteDatos conversor;
 
@@ -48,7 +48,7 @@ public class LibroService {
             guardarLibro(resultado.get());
         }
         return resultado;
-        
+
     }
 
     public void guardarLibro(DatosLibro resultadoLibro) {
@@ -57,14 +57,16 @@ public class LibroService {
             Autor nuevo = new Autor(resultadoLibro.autor().get(0), nombreAutor);
             return autorRepository.save(nuevo);
         });
-        if (libroRepository.existsByTitulo(resultadoLibro.titulo())) {
+        var libroExsitente = libroRepository.findByTituloAndAutorAndIdioma(resultadoLibro.titulo(), autor,
+                resultadoLibro.idioma().get(0));
+        if (!libroExsitente.isPresent()) {
+            Libro libro = new Libro(resultadoLibro, autor);
+            autor.agregarLibro(libro);
+            autorRepository.save(autor);
+            libroRepository.save(libro);
+        } else {
             System.out.println("\n****El libro ya se encuentra registrado****\n");
-            return;
         }
-        Libro libro = new Libro(resultadoLibro, autor);
-        autor.agregarLibro(libro);
-        autorRepository.save(autor);
-        libroRepository.save(libro);
     }
 
     public List<Libro> listarLibrosRegistrados() {
@@ -74,8 +76,8 @@ public class LibroService {
     public List<Libro> listarLibrosPorIdioma(String idiomaSeleccionado) {
         var listaLibrosPorIdioma = libroRepository.findByIdiomaContaining(idiomaSeleccionado);
         return listaLibrosPorIdioma.stream()
-            .sorted(Comparator.comparing(Libro::getTitulo))
-            .toList();
+                .sorted(Comparator.comparing(Libro::getTitulo))
+                .toList();
     }
 
     public List<Libro> top10LibrosMasDescargados() {
@@ -85,7 +87,7 @@ public class LibroService {
     public DoubleSummaryStatistics obtenerEstadisticas() {
         var listaLibros = listarLibrosRegistrados();
         DoubleSummaryStatistics est = listaLibros.stream()
-            .collect(Collectors.summarizingDouble(Libro::getNumeroDescargas));
+                .collect(Collectors.summarizingDouble(Libro::getNumeroDescargas));
         return est;
     }
 }

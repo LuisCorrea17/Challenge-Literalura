@@ -47,13 +47,19 @@ public class Autor {
 
     @Override
     public String toString() {
+        StringBuilder librosTitulo = new StringBuilder();
+        for (Libro libro : libros) {
+            librosTitulo.append("   -").append(libro.getTitulo()).append("\n");
+        }
         return String.format("""
 
                 Nombre: %s
                 Fecha de Nacimiento: %s
                 Fecha de muerte: %s
+                Libros: 
+                %s
                 -------------------------
-                """, nombre, fechaNacimiento, fechaMuerte);
+                """, nombre, fechaNacimiento, fechaMuerte, librosTitulo.toString());
     }
 
 }
