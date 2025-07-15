@@ -75,4 +75,8 @@ public class LibroService {
             .sorted(Comparator.comparing(Libro::getTitulo))
             .toList();
     }
+
+    public List<Libro> top10LibrosMasDescargados() {
+        return libroRepository.top10Libros();
+    }
 }

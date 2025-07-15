@@ -28,4 +28,8 @@ public class LibroController {
         return libroService.listarLibrosPorIdioma(idiomaSeleccionado);
     }
 
+    public List<Libro> top10LibrosMasDescargados() {
+        return libroService.top10LibrosMasDescargados();
+    }
+
 }

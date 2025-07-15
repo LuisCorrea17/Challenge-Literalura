@@ -31,6 +31,7 @@ public class Menu {
                     3. Listar autores registrados
                     4. Listar autores vivos en un determinado año
                     5. Listar libros por idioma
+                    6. Top 10 libros mas descargados
                     0. Salir
                     """;
             System.out.println(listaOpciones);
@@ -52,6 +53,9 @@ public class Menu {
                         break;
                     case 5:
                         listarLibrosPorIdioma();
+                        break;
+                    case 6:
+                        top10LibrosMasDescargados();
                         break;
                     case 0:
                         menu = false;
@@ -103,7 +107,7 @@ public class Menu {
                 System.out.println("\n------- Autores Vivos en " + año + " -------");
                 listaAutores.forEach(System.out::println);
             }
-        } catch(InputMismatchException e) {
+        } catch (InputMismatchException e) {
             System.out.println("\nIngresa un año válido (número entero)\n");
             teclado.nextLine();
             listarAutoresVivos();
@@ -130,6 +134,15 @@ public class Menu {
             System.out.println("\n****No hay libros registrados en ese idioma****\n");
         } else {
             libros.forEach(System.out::println);
+        }
+    }
+
+    private void top10LibrosMasDescargados() {
+        var top10 = libroController.top10LibrosMasDescargados();
+        if (!top10.isEmpty()) {
+            top10.forEach(System.out::println);
+        } else {
+            System.out.println("Aun no hay libros registrados");
         }
     }
 }
