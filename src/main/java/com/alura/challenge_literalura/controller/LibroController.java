@@ -1,5 +1,6 @@
 package com.alura.challenge_literalura.controller;
 
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,10 @@ public class LibroController {
 
     public List<Libro> top10LibrosMasDescargados() {
         return libroService.top10LibrosMasDescargados();
+    }
+
+    public DoubleSummaryStatistics obtenerEstadisticas() {
+        return libroService.obtenerEstadisticas();
     }
 
 }

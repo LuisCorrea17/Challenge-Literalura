@@ -1,8 +1,10 @@
 package com.alura.challenge_literalura.service;
 
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,5 +80,12 @@ public class LibroService {
 
     public List<Libro> top10LibrosMasDescargados() {
         return libroRepository.top10Libros();
+    }
+
+    public DoubleSummaryStatistics obtenerEstadisticas() {
+        var listaLibros = listarLibrosRegistrados();
+        DoubleSummaryStatistics est = listaLibros.stream()
+            .collect(Collectors.summarizingDouble(Libro::getNumeroDescargas));
+        return est;
     }
 }

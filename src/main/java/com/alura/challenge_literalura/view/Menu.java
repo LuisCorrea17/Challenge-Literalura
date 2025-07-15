@@ -33,6 +33,7 @@ public class Menu {
                     5. Listar libros por idioma
                     6. Top 10 libros mas descargados
                     7. Buscar autor registrado por nombre
+                    8. Obtener estadisticas de libros registrados
                     0. Salir
                     """;
             System.out.println(listaOpciones);
@@ -60,6 +61,9 @@ public class Menu {
                         break;
                     case 7:
                         buscarAutorRegistradoPorNombre();
+                        break;
+                    case 8:
+                        obtenerEstadisticas();
                         break;
                     case 0:
                         menu = false;
@@ -159,5 +163,13 @@ public class Menu {
         } else {
         System.out.println("\n*** Autor no encontrado ***\n");
         }
+    }
+
+    private void obtenerEstadisticas() {
+        var est = libroController.obtenerEstadisticas();
+        System.out.println(String.format("\nCantidad promedio de descargas: %.2f", est.getAverage()));
+        System.out.println("\nCantidad maxima de descargas: " + est.getMax());
+        System.out.println("\nCantidad minima de descargas: " + est.getMin());
+        System.out.println("\nCantidad de registros evaluados para calcular las estadisticas: " + est.getCount());
     }
 }
