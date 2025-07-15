@@ -32,6 +32,7 @@ public class Menu {
                     4. Listar autores vivos en un determinado año
                     5. Listar libros por idioma
                     6. Top 10 libros mas descargados
+                    7. Buscar autor registrado por nombre
                     0. Salir
                     """;
             System.out.println(listaOpciones);
@@ -56,6 +57,9 @@ public class Menu {
                         break;
                     case 6:
                         top10LibrosMasDescargados();
+                        break;
+                    case 7:
+                        buscarAutorRegistradoPorNombre();
                         break;
                     case 0:
                         menu = false;
@@ -143,6 +147,17 @@ public class Menu {
             top10.forEach(System.out::println);
         } else {
             System.out.println("Aun no hay libros registrados");
+        }
+    }
+
+    private void buscarAutorRegistradoPorNombre() {
+        System.out.println("Ingrese el nombre del autor que desea buscar");
+        var autorBuscado = teclado.nextLine();
+        var autor = autorController.buscarAutorRegistradoPorNombre(autorBuscado);
+        if (autor.isPresent()) {
+            System.out.println(autor.get());
+        } else {
+        System.out.println("\n*** Autor no encontrado ***\n");
         }
     }
 }

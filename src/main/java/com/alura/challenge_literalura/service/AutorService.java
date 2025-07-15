@@ -1,6 +1,7 @@
 package com.alura.challenge_literalura.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class AutorService {
 
     public List<Autor> listarAutoresVivos(int año) {
         return autorRepository.autoresVivos(año);
+    }
+
+    public Optional<Autor> buscarAutorRegistradoPorNombre(String autorBuscado) {
+        var autor = autorRepository.findByNombreContainsIgnoreCase(autorBuscado);
+        return autor;
     }
 
 }

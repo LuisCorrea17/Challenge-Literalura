@@ -17,4 +17,6 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
     @Query(value = "SELECT * FROM autores a WHERE a.fecha_nacimiento::INTEGER <= :año AND a.fecha_muerte::INTEGER > :año", nativeQuery = true)
     List<Autor> autoresVivos(int año);
 
+    Optional<Autor> findByNombreContainsIgnoreCase(String autorBuscado);
+
 }
